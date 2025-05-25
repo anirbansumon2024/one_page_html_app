@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>QnA LocalStorage App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" hfef="main.css">
+</head>
+<body>
+  <div class="android-app-bar" id="appBar">
+    <button class="drawer-menu-btn" id="openDrawerBtn" aria-label="Drawer menu" style="display:none;">
+      <i class="fas fa-bars"></i>
+    </button>
+    OnePage App
+    <span class="spacer"></span>
+  </div>
+  <div class="android-drawer-backdrop" id="drawerBackdrop"></div>
+  <nav class="android-drawer" id="androidDrawer" aria-label="Drawer menu">
+    <div class="drawer-header">
+      <i class="fas fa-user-graduate"></i>
+      <span>শিক্ষার্থী</span>
+    </div>
+    <ul class="drawer-menu">
+      <li>
+        <button class="drawer-menu-btn-link active" data-activity="dashboard">
+          <i class="fas fa-home"></i> ড্যাশবোর্ড
+        </button>
+      </li>
+      <li>
+        <button class="drawer-menu-btn-link" data-activity="profile">
+          <i class="fas fa-user"></i> প্রোফাইল
+        </button>
+      </li>
+      <li>
+        <button class="drawer-menu-btn-link" data-activity="subject">
+          <i class="fas fa-book"></i> বিষয়
+        </button>
+      </li>
+      <li>
+        <button class="drawer-menu-btn-link" data-activity="capter">
+          <i class="fas fa-question-circle"></i> Q&A
+        </button>
+      </li>
+    </ul>
+    <div class="drawer-footer">
+      <span>© 2025</span>
+    </div>
+  </nav>
+  <div class="container">
+    <div id="login" class="activity active">
+      <h2><i class="fas fa-sign-in-alt"></i> লগইন</h2>
+      <form id="loginForm">
+        <label for="username"><i class="fas fa-user"></i> ইউজারনেম</label>
+        <input required type="text" id="username" name="username" autocomplete="username"/>
+        <label for="password"><i class="fas fa-key"></i> পাসওয়ার্ড</label>
+        <input required type="password" id="password" name="password" autocomplete="current-password"/>
+        <button type="submit"><i class="fas fa-sign-in-alt"></i> লগইন করুন</button>
+      </form>
+    </div>
+    <div id="authAlert" class="auth-alert"></div>
+    <div id="mainApp" style="display:none;">
+      <div id="dashboard" class="activity active">
+        <h2><i class="fas fa-home"></i> ড্যাশবোর্ড</h2>
+        <p>স্বাগতম, <span id="dashboardUsername"></span>!</p>
+        <p>নিচের নেভিগেশন বার অথবা ড্রয়ার থেকে অপশন বাছাই করুন।</p>
+      </div>
+      <div id="profile" class="activity">
+        <h2><i class="fas fa-user"></i> প্রোফাইল</h2>
+        <div class="profile-avatar" id="profileAvatar"></div>
+        <ul class="profile-info-list">
+          <li><i class="fas fa-user-circle"></i> <strong>ইউজারনেম:</strong> <span id="profileUsername"></span></li>
+          <li><i class="fas fa-envelope"></i> <strong>ইমেইল:</strong> <span id="profileEmail"></span></li>
+          <li><i class="fas fa-building-columns"></i> <strong>ডিপার্টমেন্ট:</strong> <span id="profileDepartment"></span></li>
+          <li><i class="fas fa-calendar-alt"></i> <strong>পরীক্ষার সেশন:</strong> <span id="profileExamSession"></span></li>
+          <li><i class="fas fa-calendar-plus"></i> <strong>ভর্তি সেশন:</strong> <span id="profileAdmissionSession"></span></li>
+        </ul>
+        <button class="edit-profile-btn" id="editProfileBtn"><i class="fas fa-edit"></i> এডিট প্রোফাইল</button>
+        <form id="editProfileForm" class="hidden" autocomplete="off">
+          <label for="department"><i class="fas fa-building-columns"></i> ডিপার্টমেন্ট</label>
+          <input type="text" id="department" name="department" required>
+          <label for="examSession"><i class="fas fa-calendar-alt"></i> পরীক্ষার সেশন</label>
+          <input type="text" id="examSession" name="examSession" required placeholder="যেমন: ২০২2-২৩">
+          <label for="admissionSession"><i class="fas fa-calendar-plus"></i> ভর্তি সেশন</label>
+          <input type="text" id="admissionSession" name="admissionSession" required placeholder="যেমন: ২০২০-২১">
+          <button type="submit"><i class="fas fa-save"></i> সংরক্ষণ করুন</button>
+          <button type="button" id="cancelEditBtn" style="margin-top:8px;background:#eee;color:#444;"><i class="fas fa-times"></i> বাতিল</button>
+        </form>
+        <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+      <div id="subject" class="activity">
+        <h2><i class="fas fa-book"></i> বিষয়</h2>
+        <ul class="list-view" id="subjectList"></ul>
+        <div id="chapterSection" class="hidden">
+          <div style="display: flex; align-items: center; margin-bottom: 8px;">
+            <button class="back-btn" id="chapterBackBtn" aria-label="Back">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <span class="subject-title" id="selectedSubjectTitle" style="font-size:1.08em"></span>
+          </div>
+          <ul class="list-view" id="chapterList"></ul>
+        </div>
+      </div>
+      <div id="chapterQna" class="activity">
+        <h2>
+          <button class="back-btn" id="qnaBackBtn" aria-label="Back">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <i class="fas fa-question-circle"></i> প্রশ্ন-উত্তর
+        </h2>
+        <div style="margin-bottom: 12px;">
+          <span class="subject-title" id="qnaSubjectTitle"></span> /
+          <span class="chapter-title" id="qnaChapterTitle"></span>
+        </div>
+        <div id="qnaList"></div>
+      </div>
+      <div id="capter" class="activity">
+        <h2><i class="fas fa-question-circle"></i> চ্যাপ্টার Q&A</h2>
+        <label for="chapterSelect"><i class="fas fa-list-ol"></i> চ্যাপ্টার নির্বাচন করুন:</label>
+        <select id="chapterSelect">
+          <option value="ch1">চ্যাপ্টার ১: পরিচিতি</option>
+          <option value="ch2">চ্যাপ্টার ২: উন্নত</option>
+        </select>
+        <div id="qnaBlock" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="android-bottom-nav" id="bottomNav" style="display:none;">
+    <button class="nav-btn active" id="nav-dashboard" data-activity="dashboard">
+      <i class="fas fa-home"></i>
+      <span>ড্যাশবোর্ড</span>
+    </button>
+    <button class="nav-btn" id="nav-profile" data-activity="profile">
+      <i class="fas fa-user"></i>
+      <span>প্রোফাইল</span>
+    </button>
+    <button class="nav-btn" id="nav-subject" data-activity="subject">
+      <i class="fas fa-book"></i>
+      <span>বিষয়</span>
+    </button>
+    <button class="nav-btn" id="nav-capter" data-activity="capter">
+      <i class="fas fa-question-circle"></i>
+      <span>Q&A</span>
+    </button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

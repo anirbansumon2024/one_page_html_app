@@ -1,0 +1,373 @@
+ :root {
+      --primary: #1976d2;
+      --primary-dark: #115293;
+      --accent: #ff9800;
+      --bg: #f4f8fc;
+      --surface: #fff;
+      --border-radius: 16px;
+      --nav-height: 56px;
+      --appbar-height: 44px;
+      --shadow: 0 2px 10px #0001;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      font-family: 'Roboto', Arial, sans-serif;
+      color: #222;
+      min-height: 100vh;
+    }
+    .android-app-bar {
+      background: var(--primary);
+      height: var(--appbar-height);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: #fff;
+      font-size: 1.13em;
+      font-weight: 500;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .drawer-menu-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5em;
+      margin-right: 12px;
+      cursor: pointer;
+      padding: 0 7px 0 0;
+      display: flex;
+      align-items: center;
+    }
+    .android-app-bar .spacer {
+      flex: 1 1 0;
+    }
+    .android-drawer-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #0005;
+      z-index: 200;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    .android-drawer-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    .android-drawer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--surface);
+      box-shadow: 3px 0 12px #0003;
+      z-index: 201;
+      border-top-right-radius: 18px;
+      border-bottom-right-radius: 18px;
+      transform: translateX(-105%);
+      transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column;
+      overflow: auto;
+    }
+    .android-drawer.active {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 18px 18px 12px 18px;
+      font-size: 1.1em;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-top-right-radius: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .drawer-header i {
+      font-size: 1.25em;
+      margin-right: 6px;
+      color: #ffeb3b;
+    }
+    .drawer-menu {
+      list-style: none;
+      margin: 0; padding: 0;
+      flex: 1 1 0;
+    }
+    .drawer-menu li {
+      padding: 0; margin: 0;
+    }
+    .drawer-menu-btn-link {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border: none;
+      background: none;
+      font-size: 1em;
+      color: #333;
+      padding: 11px 18px;
+      transition: background 0.15s;
+      cursor: pointer;
+      text-align: left;
+      outline: none;
+      gap: 12px;
+      font-family: inherit;
+    }
+    .drawer-menu-btn-link i {
+      font-size: 1.1em;
+      width: 20px;
+      text-align: center;
+      color: var(--primary);
+    }
+    .drawer-menu-btn-link.active, .drawer-menu-btn-link:hover {
+      background: #e3f0fb;
+      color: var(--primary);
+    }
+    .drawer-footer {
+      padding: 12px 18px 14px 18px;
+      font-size: 0.95em;
+      color: #888;
+      border-top: 1px solid #eee;
+      background: #fafbfd;
+      border-bottom-right-radius: 18px;
+    }
+    .container {
+      max-width: 390px;
+      margin: 30px auto 70px auto;
+      background: var(--surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 22px 12px 18px 12px;
+      position: relative;
+      min-height: 350px;
+      transition: box-shadow 0.2s;
+      overflow: hidden;
+    }
+    @media (max-width: 500px) {
+      .container { margin: 0; border-radius: 0; max-width: 100vw; }
+      .android-app-bar { border-radius: 0; }
+      .android-drawer { border-radius: 0; }
+      .android-drawer .drawer-header,
+      .android-drawer .drawer-footer { border-radius: 0; }
+    }
+    .activity {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      transition: opacity 0.36s cubic-bezier(0.4,0.0,0.2,1);
+      background: transparent;
+      min-height: 320px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .activity.active {
+      opacity: 1;
+      pointer-events: auto;
+      position: relative;
+      display: flex;
+    }
+    .activity.hidden {
+      display: none !important;
+    }
+    #login {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    #mainApp {
+      min-height: 330px;
+      position: relative;
+    }
+    h2 {
+      margin-top: 0;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 1.15em;
+    }
+    .activity label {
+      margin: 8px 0 4px;
+      font-weight: 500;
+      color: #444;
+    }
+    input[type="text"], input[type="password"], select, textarea {
+      width: 100%;
+      padding: 12px 10px;
+      border: 1.5px solid #bbb;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      background: #f7f7f7;
+      font-size: 1em;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #e3f0fb;
+    }
+    button:not(.drawer-menu-btn):not(.drawer-menu-btn-link):not(.nav-btn) {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 0;
+      width: 100%;
+      font-size: 1.07em;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px #1976d255;
+      transition: background 0.2s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button:not(.drawer-menu-btn):not(.drawer-menu-btn-link):not(.nav-btn):hover,
+    button:not(.drawer-menu-btn):not(.drawer-menu-btn-link):not(.nav-btn):focus {
+      background: var(--primary-dark);
+    }
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 70%, #ff9800 100%);
+      font-size: 2.7em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      box-shadow: 0 2px 10px #1976d222;
+      border: 3px solid #fff;
+    }
+    .profile-info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+    .profile-info-list li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 1em;
+      color: #333;
+    }
+    .profile-info-list li i {
+      color: var(--primary);
+      width: 22px;
+      text-align: center;
+      font-size: 1.14em;
+    }
+    .logout-btn {
+      background: #ff5252;
+      color: #fff;
+      width: 100%;
+      margin: 24px 0 0 0;
+      border-radius: 8px;
+      font-size: 1.05em;
+      font-weight: 600;
+      padding: 11px 0;
+      position: static;
+      box-shadow: 0 1px 6px #ff525244;
+      transition: background 0.2s;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .logout-btn.show {
+      display: flex;
+    }
+    .logout-btn:hover {
+      background: #d83434;
+    }
+    .android-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: var(--nav-height);
+      background: var(--surface);
+      box-shadow: 0 -2px 8px #0002;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99;
+    }
+    .android-bottom-nav .nav-btn {
+      flex: 1 1 0;
+      height: 100%;
+      border: none;
+      background: none;
+      color: #888;
+      font-size: 1.1em;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+      cursor: pointer;
+      position: relative;
+      gap: 3px;
+    }
+    .android-bottom-nav .nav-btn.active {
+      color: var(--primary);
+    }
+    .android-bottom-nav .nav-btn i {
+      font-size: 1.22em;
+      margin-bottom: 2px;
+      width: 22px;
+      text-align: center;
+    }
+    .android-bottom-nav .nav-btn.active::after {
+      content: '';
+      width: 32px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 1.5px;
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .list-view { margin: 10px 0 0 0; padding: 0; list-style: none; width: 100%; max-width: 100%; }
+    .list-view li { background: #f7fafd; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 1px 4px #1976d211; padding: 13px 16px; cursor: pointer; display: flex; align-items: center; gap: 13px; font-size: 1.05em; border: 1.5px solid transparent; transition: background 0.15s, border 0.18s; width: 100%; box-sizing: border-box; }
+    .list-view li i { color: var(--primary); font-size: 1.17em; width: 22px; text-align: center; }
+    .list-view li:hover, .list-view li.active { background: #e3f0fb; border: 1.5px solid var(--primary); }
+    .subject-title { font-weight: 500; font-size: 1.09em; flex: 1 1 0; }
+    .chapter-title { font-weight: 500; font-size: 1.03em; flex: 1 1 0; }
+    .qna-card { background: #f7fafd; border-radius: 8px; box-shadow: 0 1px 4px #1976d211; margin-bottom: 16px; padding: 16px 14px; width: 100%; box-sizing: border-box; }
+    .question { font-weight: 500; color: var(--primary-dark); margin-bottom: 6px; display: flex; gap: 7px; align-items: center; }
+    .question i { color: var(--primary); font-size: 1.1em; }
+    .answer { color: #444b; margin-left: 10px; font-size: 0.98em; display: flex; gap: 7px; align-items: center; }
+    .answer i { color: #ff9800; font-size: 1em; }
+    .auth-alert { background: #ffeaea; border-left: 4px solid #ff5252; color: #a00000; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: none; }
+    .auth-alert.active { display: block; }
+    .back-btn { background: none !important; border: none !important; color: var(--primary-dark); font-size: 1.25em; margin: 0 8px 0 0; cursor: pointer; padding: 0; display: inline-flex; align-items: center; transition: color 0.2s; outline: none; box-shadow: none !important; height: 32px; width: 34px; border-radius: 50%; justify-content: center; }
+    .back-btn i { font-size: 1.3em !important; pointer-events: none; }
+    .back-btn:focus { outline: none; }
+    .back-btn:hover { color: var(--primary); background: none !important; }
+    .hidden { display: none !important; }
+  
